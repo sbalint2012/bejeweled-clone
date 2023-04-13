@@ -7,10 +7,10 @@ body{
 
 }
 
-#game_area{
+#gameArea{
 
-    height: 420px;
-    width: 420px;
+    height: 460px;
+    width: 460px;
     position: relative;
     margin: 0 auto;
     margin-top: 50px;
@@ -47,4 +47,12 @@ body{
     float: left;
     background-color: yellow;
     border: 1px solid black;
+}
+
+img{
+    width: 40px;
+    height: 40px;
+    float: left;
+    border: 1px solid black;
+    padding: 2px;
 }

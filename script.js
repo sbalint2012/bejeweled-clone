@@ -67,8 +67,7 @@ function move_gems(arr){
     var gem_2_class = "." + arr[1][0] + "." + arr[1][1] + "." + arr[1][2];
 
     //console.log(gem_1_class);
-
-    if(check_step(arr) && check_dist(arr)){
+    if(check_step(arr)){
         $('#game_area').find(gem_1_class).each(function (){
             $(this).removeClass(arr[0][0]);
             $(this).attr('class', arr[1][0] + " " + $(this).attr('class'));
@@ -79,17 +78,23 @@ function move_gems(arr){
             $(this).attr('class', arr[0][0] + " " + $(this).attr('class'));
         });
     }
-    check_dist(arr);
+    //console.log("Arr: "+arr);
 
 }
 
 //lepes ellenorzes, csak vizszintes vagy fuggoleges
 function check_step(arr){
+
     if(arr[0][1] == arr[1][1] || arr[0][2] == arr[1][2]){
-        return true;
+        if(check_dist(arr)){
+            check_col_same(arr);
+            return true;
+        }
+
     }
     return false;
 }
+
 //lepes tavolsag ellenorzes
 function check_dist(arr){
     var gem_1_col;
@@ -97,27 +102,10 @@ function check_dist(arr){
     var gem_2_col;
     var gem_2_row;
 
-    if(arr[0][1].length == 8){
-        gem_1_col = arr[0][1].slice(7,8);
-    } else {
-        gem_1_col = arr[0][1].slice(7,9);
-    }
-    if(arr[1][1].length == 8){
-        gem_2_col = arr[1][1].slice(7,8);
-    } else {
-        gem_2_col = arr[1][1].slice(7,9);
-    }
-
-    if(arr[0][2].length == 5){
-        gem_1_row = arr[0][2].slice(4,5);
-    } else {
-        gem_1_row = arr[0][2].slice(4,6);
-    }
-    if(arr[1][2].length == 5){
-        gem_2_row = arr[1][2].slice(4,5);
-    } else {
-        gem_2_row = arr[1][2].slice(4,6);
-    }
+    gem_1_col = get_col_num(arr[0][1]);
+    gem_2_col = get_col_num(arr[1][1]);
+    gem_1_row = get_row_num(arr[0][2]);
+    gem_2_row = get_row_num(arr[1][2]);
 
     var col_abs = Math.abs(gem_1_col - gem_2_col);
     var row_abs = Math.abs(gem_1_row - gem_2_row);
@@ -133,8 +121,91 @@ function check_dist(arr){
         return true;
     }
     return false;
-
 }
+
+//oszlop szama
+function get_col_num(s){
+    var res;
+
+    if(s.length == 8){
+        res = s.slice(7,8);
+    } else {
+        res = s.slice(7,9);
+    }
+
+    return parseInt(res);
+}
+
+//sor szama
+function get_row_num(s){
+    var res;
+
+    if(s.length == 5){
+        res = s.slice(4,5);
+    } else {
+        res = s.slice(4,6);
+    }
+
+    return parseInt(res);
+}
+
+//megnezi van-e legalabb 3 egyforma egymas mellett
+function check_col_same(arr){
+
+
+    return true;
+   /* var new_color = arr[0][0];
+    var dest_col = arr[1][1];
+    var dest_row = arr[1][2];
+
+    var col_array = [];
+    var row_array = [];
+
+    var col_array_split = [];
+    var row_array_split = [];
+
+    var possible_step = false;
+
+    $('#game_area').find('.' + dest_col).each(function (){
+        col_array.push($(this).attr('class'));
+    });
+
+    $('#game_area').find('.' + dest_row).each(function (){
+        row_array.push($(this).attr('class'));
+    });
+
+    for(var i = 0; i < col_array.length; i++){
+        col_array_split.push(get_row_col(col_array[i]));
+        row_array_split.push(get_row_col(row_array[i]));
+    }
+
+    for (let i = 0; i < 10; i++) {
+        //console.log(col_array_split[i][0]);
+    }
+
+    //console.log(row_array_split[0][0] === new_color);
+
+    if(get_col_num(dest_col) < 3 ){
+        if(col_array_split[get_col_num(dest_col)][0] === new_color && col_array_split[get_col_num(dest_col)+1][0] === new_color){
+            possible_step = true;
+            console.log("ALMA");
+        }
+    } else if(get_col_num(dest_col) > 8 ){
+        if(col_array_split[get_col_num(dest_col)-3][0] === new_color && col_array_split[get_col_num(dest_col)-2][0] === new_color){
+            possible_step = true;
+        }
+    } else if(get_col_num(dest_col) >= 3 && get_col_num(dest_col) <= 8 ){
+        if(col_array_split[get_col_num(dest_col)][0] === new_color && col_array_split[get_col_num(dest_col)+1][0] === new_color && col_array_split[get_col_num(dest_col)-3][0] === new_color && col_array_split[get_col_num(dest_col)-2][0] === new_color){
+            possible_step = true;
+        }
+    }
+*/
+    }
+
+function check_row_same(arr){
+    return true;
+}
+
 
 $(function () {
     generate_gems();
