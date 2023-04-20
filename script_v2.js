@@ -1,7 +1,18 @@
 let selected_gems = [];
 
+let green_gem = []; //gem3
+let red_gem = []; //gem4
+let yellow_gem = []; //gem1
+let blue_gem = []; //gem2
+
 $(function () {
     generate_gems();
+    fill_array_zero();
+
+    get_color("gem3", green_gem);
+    get_color("gem4", red_gem);
+    get_color("gem1", yellow_gem);
+    get_color("gem2", blue_gem);
 });
 
 function generate_gems(){
@@ -38,6 +49,11 @@ window.addEventListener('click', function(e) {
         if(selected_gems.length == 2) {
             move_gems(selected_gems);
             selected_gems = [];
+            fill_array_zero();
+            get_color("gem3", green_gem);
+            get_color("gem4", red_gem);
+            get_color("gem1", yellow_gem);
+            get_color("gem2", blue_gem);
         }
     }
 });
@@ -156,4 +172,36 @@ function get_row_num(s){
     }
 
     return parseInt(res);
+}
+
+function fill_array_zero(){
+    for (let i = 0; i < 10; i++) {
+        green_gem[i] = [];
+        red_gem[i] = [];
+        yellow_gem[i] = [];
+        blue_gem[i] = [];
+        for (let j = 0; j < 10; j++) {
+            green_gem[i][j] = 0;
+            red_gem[i][j] = 0;
+            yellow_gem[i][j] = 0;
+            blue_gem[i][j] = 0;
+        }
+    }
+}
+
+function get_color(color, array){
+    let i = 0, j = 0;
+    $('#gameArea').children().each(function() {
+        if ($(this).hasClass(color)) {
+            array[i][j] = 1;
+        }
+        j++;
+        if(j == 10){
+            j = 0;
+            i++;
+        }
+    });
+
+    console.log(color);
+    console.log(array);
 }
