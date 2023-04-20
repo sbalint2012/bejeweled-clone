@@ -4,6 +4,7 @@ let green_gem = []; //gem3
 let red_gem = []; //gem4
 let yellow_gem = []; //gem1
 let blue_gem = []; //gem2
+let score = 0;
 
 $(function () {
     generate_gems();
@@ -13,6 +14,9 @@ $(function () {
     get_color("gem4", red_gem);
     get_color("gem1", yellow_gem);
     get_color("gem2", blue_gem);
+
+    regenerateIndex();
+
 });
 
 function generate_gems(){
@@ -45,15 +49,65 @@ window.addEventListener('click', function(e) {
         console.log(getClass);
         //TODO: max 2 kivalaszott es ugyanazt nem lehet ketszer
         selected_gems.push(slice_class(getClass));
-        console.log(selected_gems);
+       // console.log(selected_gems);
         if(selected_gems.length == 2) {
             move_gems(selected_gems);
-            selected_gems = [];
+
             fill_array_zero();
             get_color("gem3", green_gem);
             get_color("gem4", red_gem);
             get_color("gem1", yellow_gem);
             get_color("gem2", blue_gem);
+
+            if(selected_gems[0][0] === "gem3"){
+                console.log("GREEN");
+                horizontalCheckArray(green_gem);
+                verticalCheckArray(green_gem);
+                horizontalCheckArray(red_gem);
+                verticalCheckArray(red_gem);
+                horizontalCheckArray(yellow_gem);
+                verticalCheckArray(yellow_gem);
+                horizontalCheckArray(blue_gem);
+                verticalCheckArray(blue_gem);
+            }
+            if(selected_gems[0][0] === "gem4"){
+                console.log("RED");
+                horizontalCheckArray(red_gem);
+                verticalCheckArray(red_gem);
+                horizontalCheckArray(green_gem);
+                verticalCheckArray(green_gem);
+                horizontalCheckArray(yellow_gem);
+                verticalCheckArray(yellow_gem);
+                horizontalCheckArray(blue_gem);
+                verticalCheckArray(blue_gem);
+            }
+            if(selected_gems[0][0] === "gem1"){
+                console.log("YELLOW");
+                horizontalCheckArray(yellow_gem);
+                verticalCheckArray(yellow_gem);
+                horizontalCheckArray(red_gem);
+                verticalCheckArray(red_gem);
+                horizontalCheckArray(green_gem);
+                verticalCheckArray(green_gem);
+                horizontalCheckArray(blue_gem);
+                verticalCheckArray(blue_gem);
+            }
+            if(selected_gems[0][0] === "gem2"){
+                console.log("BLUE");
+                horizontalCheckArray(blue_gem);
+                verticalCheckArray(blue_gem);
+                horizontalCheckArray(yellow_gem);
+                verticalCheckArray(yellow_gem);
+                horizontalCheckArray(red_gem);
+                verticalCheckArray(red_gem);
+                horizontalCheckArray(green_gem);
+                verticalCheckArray(green_gem);
+            }
+
+            selected_gems = [];
+            addNewGem();
+            $('#score').text("Pontszám: "+score);
+            console.log("Pontszám: "+score)
         }
     }
 });
@@ -202,6 +256,82 @@ function get_color(color, array){
         }
     });
 
-    console.log(color);
-    console.log(array);
+    //console.log(color);
+    //console.log(array);
+}
+
+function change_color(array) {
+    $('#gameArea img').css('background-color', '#e3e3e3');
+    for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array[i].length; j++) {
+            if (array[i][j] == 2) {
+                //console.log("ződ");
+                $('#gameArea img').eq(i * 10 + j).remove();//css('background-color','red');
+
+            }
+        }
+    }
+}
+
+function horizontalCheckArray(arr){
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr[i].length; j++) {
+            // Check for horizontal sequence of three 1's
+            if (j + 2 < arr[i].length && (arr[i][j] === 1 || arr[i][j] === 2) && (arr[i][j+1] === 1 || arr[i][j+1] === 2) && (arr[i][j+2] === 1 || arr[i][j+2] === 2)) {
+                arr[i][j] = arr[i][j+1] = arr[i][j+2] = 2;
+            }
+        }
+    }
+    change_color(arr);
+    //console.log(arr);
+
+}
+
+function verticalCheckArray(arr){
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr[i].length; j++) {
+            // Check for vertical sequence of three 1's
+            if (i + 2 < arr.length && (arr[i][j] === 1 || arr[i][j] === 2) && (arr[i+1][j] === 1 || arr[i+1][j] === 2) && (arr[i+2][j] === 1 || arr[i+2][j] === 2)) {
+                arr[i][j] = arr[i+1][j] = arr[i+2][j] = 2;
+            }
+        }
+    }
+    change_color(arr);
+    //console.log(arr);
+}
+
+function addNewGem(){
+    var imageCount = $('#gameArea img').length;
+    console.log("Szám: "+imageCount);
+    for (let i = 0; i < 100-imageCount; i++) {
+        let gem = $('<img>');
+        let color = Math.random();
+
+        if(color < 0.25){
+            gem.addClass('gem1').attr('src', 'gem1.png');
+        } else if(color < 0.50){
+            gem.addClass('gem2').attr('src', 'gem2.png');
+        } else if(color < 0.75){
+            gem.addClass('gem3').attr('src', 'gem3.png');
+        } else{
+            gem.addClass('gem4').attr('src', 'gem4.png');
+        }
+        gem.appendTo('#gameArea');
+    }
+    score += (100-imageCount)*10;
+    regenerateIndex();
+}
+
+function regenerateIndex() {
+    let i = 1, j = 1;
+    $('#gameArea').children().each(function() {
+       let c = slice_class($(this).attr('class'));
+       //console.log(c[0]);
+       $(this).removeClass().addClass(c[0]).addClass('col_'+j).addClass('row_'+i);
+       j++;
+       if(j == 11){
+           j = 1;
+           i++;
+       }
+    });
 }
