@@ -50,6 +50,7 @@ function generate_gems(){
 
 //Eger kattintas a kore, hatasara a sor oszlop azonosito atadasa
 window.addEventListener('click', function(e) {
+    e.target.style.backgroundColor = "cyan";
     let getClass = e.target.className;
     if (getClass !== '') {
         console.log(getClass);
