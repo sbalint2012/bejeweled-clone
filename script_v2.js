@@ -5,6 +5,7 @@ let red_gem = []; //gem4
 let yellow_gem = []; //gem1
 let blue_gem = []; //gem2
 let score = 0;
+let player = "Player";
 
 $(function () {
     generate_gems();
@@ -15,7 +16,12 @@ $(function () {
     get_color("gem1", yellow_gem);
     get_color("gem2", blue_gem);
 
-    regenerateIndex();
+    var tbody = $('#scoreBoard tbody');
+    var newRow = $('<tr>');
+    newRow.append($('<td>').text(player)).css("color","red");
+    newRow.append($('<td>').text(score));
+    tbody.append(newRow);
+
 
 });
 
@@ -108,6 +114,9 @@ window.addEventListener('click', function(e) {
             addNewGem();
             $('#score').text("Pontszám: "+score);
             console.log("Pontszám: "+score)
+            var newPlayerScoreCell = $("#scoreBoard td:contains('" + player + "')").next();
+            newPlayerScoreCell.text(score);
+            sortByScore();
         }
     }
 });
@@ -334,4 +343,21 @@ function regenerateIndex() {
            i++;
        }
     });
+}
+
+function sortByScore() {
+    var $table = $('table');
+    var $tbody = $table.find('tbody');
+    var $rows = $tbody.find('tr');
+
+    // sort the rows by score
+    $rows.sort(function(a, b) {
+        var scoreA = parseInt($(a).find('td:nth-child(2)').text());
+        var scoreB = parseInt($(b).find('td:nth-child(2)').text());
+        return scoreB - scoreA;
+    });
+
+    // append the sorted rows to the table
+    $tbody.empty();
+    $rows.appendTo($tbody);
 }
