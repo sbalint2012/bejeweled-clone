@@ -5,24 +5,21 @@ let red_gem = []; //gem4
 let yellow_gem = []; //gem1
 let blue_gem = []; //gem2
 let score = 0;
-let player = "Player";
+let player = "Player 1";
+
+let game = false;
+let start = "";
+let name = "Player"
 
 $(function () {
-    generate_gems();
+    //generate_gems();
+    getElement();
     fill_array_zero();
 
     get_color("gem3", green_gem);
     get_color("gem4", red_gem);
     get_color("gem1", yellow_gem);
     get_color("gem2", blue_gem);
-
-    var tbody = $('#scoreBoard tbody');
-    var newRow = $('<tr>');
-    newRow.append($('<td>').text(player)).css("color","red");
-    newRow.append($('<td>').text(score));
-    tbody.append(newRow);
-
-
 });
 
 function generate_gems(){
@@ -50,7 +47,27 @@ function generate_gems(){
 
 //Eger kattintas a kore, hatasara a sor oszlop azonosito atadasa
 window.addEventListener('click', function(e) {
-    e.target.style.backgroundColor = "cyan";
+
+    if($(e.target).is('#startBtn') && game ===  false){
+        player = name.value;
+        if(player === ""){
+            player = "Player 1"
+
+        }
+        var tbody = $('#scoreBoard tbody');
+        var newRow = $('<tr>');
+        newRow.append($('<td>').text(player)).css("color","red");
+        newRow.append($('<td>').text(score));
+        tbody.append(newRow);
+        game = true;
+        start.remove();
+        generate_gems();
+    }
+
+    if($(e.target).is('img')){
+        e.target.style.backgroundColor = "cyan";
+    }
+
     let getClass = e.target.className;
     if (getClass !== '') {
         console.log(getClass);
@@ -361,4 +378,9 @@ function sortByScore() {
     // append the sorted rows to the table
     $tbody.empty();
     $rows.appendTo($tbody);
+}
+
+function getElement(){
+    start = document.getElementById('start');
+    name = document.getElementById("playerName");
 }

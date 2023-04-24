@@ -125,3 +125,28 @@ h2{
     margin: 5px;
 }
 
+#start {
+    background-color: #efefef;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* set height of the container to the viewport height */
+}
+
+#startBtn{
+    height: 40px;
+    width: 200px;
+    border-radius: 10px;
+    border: none;
+    font-size: 20px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#playerName{
+    border: none;
+    font-size: 20px;
+    height: 40px;
+    width: 200px;
+}
