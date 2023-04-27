@@ -19,7 +19,12 @@ $(function () {
     get_color("gem3", green_gem);
     get_color("gem4", red_gem);
     get_color("gem1", yellow_gem);
-    get_color("gem2", blue_gem);
+    get_color("gem2", blue_gem)
+
+    document.getElementById('reset').addEventListener('click', function() {
+        location.reload();
+    });
+
 });
 
 function generate_gems(){
@@ -74,60 +79,8 @@ window.addEventListener('click', function(e) {
         //TODO: max 2 kivalaszott es ugyanazt nem lehet ketszer
         selected_gems.push(slice_class(getClass));
        // console.log(selected_gems);
-        if(selected_gems.length == 2) {
+        if(selected_gems.length === 2) {
             move_gems(selected_gems);
-
-            fill_array_zero();
-            get_color("gem3", green_gem);
-            get_color("gem4", red_gem);
-            get_color("gem1", yellow_gem);
-            get_color("gem2", blue_gem);
-
-            if(selected_gems[0][0] === "gem3"){
-                console.log("GREEN");
-                horizontalCheckArray(green_gem);
-                verticalCheckArray(green_gem);
-                horizontalCheckArray(red_gem);
-                verticalCheckArray(red_gem);
-                horizontalCheckArray(yellow_gem);
-                verticalCheckArray(yellow_gem);
-                horizontalCheckArray(blue_gem);
-                verticalCheckArray(blue_gem);
-            }
-            if(selected_gems[0][0] === "gem4"){
-                console.log("RED");
-                horizontalCheckArray(red_gem);
-                verticalCheckArray(red_gem);
-                horizontalCheckArray(green_gem);
-                verticalCheckArray(green_gem);
-                horizontalCheckArray(yellow_gem);
-                verticalCheckArray(yellow_gem);
-                horizontalCheckArray(blue_gem);
-                verticalCheckArray(blue_gem);
-            }
-            if(selected_gems[0][0] === "gem1"){
-                console.log("YELLOW");
-                horizontalCheckArray(yellow_gem);
-                verticalCheckArray(yellow_gem);
-                horizontalCheckArray(red_gem);
-                verticalCheckArray(red_gem);
-                horizontalCheckArray(green_gem);
-                verticalCheckArray(green_gem);
-                horizontalCheckArray(blue_gem);
-                verticalCheckArray(blue_gem);
-            }
-            if(selected_gems[0][0] === "gem2"){
-                console.log("BLUE");
-                horizontalCheckArray(blue_gem);
-                verticalCheckArray(blue_gem);
-                horizontalCheckArray(yellow_gem);
-                verticalCheckArray(yellow_gem);
-                horizontalCheckArray(red_gem);
-                verticalCheckArray(red_gem);
-                horizontalCheckArray(green_gem);
-                verticalCheckArray(green_gem);
-            }
-
             selected_gems = [];
             addNewGem();
             $('#score').text("Pontszám: "+score);
@@ -135,6 +88,7 @@ window.addEventListener('click', function(e) {
             var newPlayerScoreCell = $("#scoreBoard td:contains('" + player + "')").next();
             newPlayerScoreCell.text(score);
             sortByScore();
+;
         }
     }
 });
@@ -148,27 +102,6 @@ function slice_class(s){
 
     return res;
 }
-
-function move_gems(arr){
-    let gem_1_class = "." + arr[0][0] + "." + arr[0][1] + "." + arr[0][2];
-    let gem_2_class = "." + arr[1][0] + "." + arr[1][1] + "." + arr[1][2];
-
-    //console.log(gem_1_class);
-    if(check_step(arr)){
-        $('#game_area').find(gem_1_class).each(function (){
-            $(this).removeClass(arr[0][0]);
-            $(this).attr('class', arr[1][0] + " " + $(this).attr('class'));
-        });
-
-        $('#game_area').find(gem_2_class).each(function (){
-            $(this).removeClass(arr[1][0]);
-            $(this).attr('class', arr[0][0] + " " + $(this).attr('class'));
-        });
-    }
-    //console.log("Arr: "+arr);
-
-}
-
 
 //kivalasztott kovek megcserelese
 function move_gems(arr){
@@ -186,6 +119,33 @@ function move_gems(arr){
             $(this).removeClass(arr[1][0]);
             $(this).attr('class', arr[0][0] + " " + $(this).attr('class')).attr('src',''+arr[0][0]+'.png');
         });
+
+        fill_array_zero();
+        get_color("gem3", green_gem);
+        get_color("gem4", red_gem);
+        get_color("gem1", yellow_gem);
+        get_color("gem2", blue_gem);
+
+        if(selected_gems[0][0] === "gem3"){
+            console.log("GREEN");
+            horizontalCheckArray(green_gem);
+            verticalCheckArray(green_gem);
+        }
+        if(selected_gems[0][0] === "gem4"){
+            console.log("RED");
+            horizontalCheckArray(red_gem);
+            verticalCheckArray(red_gem);
+        }
+        if(selected_gems[0][0] === "gem1"){
+            console.log("YELLOW");
+            horizontalCheckArray(yellow_gem);
+            verticalCheckArray(yellow_gem);
+        }
+        if(selected_gems[0][0] === "gem2"){
+            console.log("BLUE");
+            horizontalCheckArray(blue_gem);
+            verticalCheckArray(blue_gem);
+        }
     }
     //console.log("Arr: "+arr);
 
@@ -193,11 +153,13 @@ function move_gems(arr){
 
 //lepes ellenorzes, csak vizszintes vagy fuggoleges
 function check_step(arr){
-    if(arr[0][1] == arr[1][1] || arr[0][2] == arr[1][2]){
+    if(arr[0][1] === arr[1][1] || arr[0][2] === arr[1][2]){
         if(check_step_dist(arr)){
+            change_color();
             return true;
         }
     }
+    change_color();
     return false;
 }
 
@@ -221,9 +183,9 @@ function check_step_dist(arr){
     //console.log("gem1: " + gem_1_col + ", " + gem_1_row);
     //console.log("gem2: " + gem_2_col + ", " + gem_2_row);
 
-    if(col_abs == 0 && row_abs == 1){
+    if(col_abs === 0 && row_abs === 1){
         return true;
-    } else if(col_abs == 1 && row_abs ==0){
+    } else if(col_abs === 1 && row_abs === 0){
         return true;
     }
     return false;
@@ -233,7 +195,7 @@ function check_step_dist(arr){
 function get_col_num(s){
     var res;
 
-    if(s.length == 5){
+    if(s.length === 5){
         res = s.slice(4,5);
     } else {
         res = s.slice(4,6);
@@ -246,7 +208,7 @@ function get_col_num(s){
 function get_row_num(s){
     var res;
 
-    if(s.length == 5){
+    if(s.length === 5){
         res = s.slice(4,5);
     } else {
         res = s.slice(4,6);
@@ -255,6 +217,7 @@ function get_row_num(s){
     return parseInt(res);
 }
 
+// tomb feltoltese 0-val
 function fill_array_zero(){
     for (let i = 0; i < 10; i++) {
         green_gem[i] = [];
@@ -270,6 +233,7 @@ function fill_array_zero(){
     }
 }
 
+// adott tombbe eltarolja hol vannak az adott szinu kovek
 function get_color(color, array){
     let i = 0, j = 0;
     $('#gameArea').children().each(function() {
@@ -277,7 +241,7 @@ function get_color(color, array){
             array[i][j] = 1;
         }
         j++;
-        if(j == 10){
+        if(j === 10){
             j = 0;
             i++;
         }
@@ -287,19 +251,28 @@ function get_color(color, array){
     //console.log(array);
 }
 
-function change_color(array) {
+// reseteli a hatterszint
+function change_color() {
     $('#gameArea img').css('background-color', '#e3e3e3');
+}
+
+//eltavolitja a koveket ahol legalabb 3 egymas mellett van
+function remove_gem(array){
     for (let i = 0; i < array.length; i++) {
         for (let j = 0; j < array[i].length; j++) {
-            if (array[i][j] == 2) {
+            if (array[i][j] === 2) {
                 //console.log("ződ");
-                $('#gameArea img').eq(i * 10 + j).remove();//css('background-color','red');
+                //$('#gameArea img').eq(i * 10 + j).remove();//css('background-color','red');
+                $('#gameArea img').eq(i * 10 + j).fadeOut(500, function() {
+                    $(this).remove();
+                });
 
             }
         }
     }
 }
 
+// megnezi  hogy vizszintesen van legalabb 3 egymas mellett, es utana meghivja a torlo fvg-t
 function horizontalCheckArray(arr){
     for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < arr[i].length; j++) {
@@ -309,11 +282,12 @@ function horizontalCheckArray(arr){
             }
         }
     }
-    change_color(arr);
+    remove_gem(arr);
     //console.log(arr);
 
 }
 
+// megnezi  hogy fuggolegesen van legalabb 3 egymas mellett, es utana meghivja a torlo fvg-t
 function verticalCheckArray(arr){
     for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < arr[i].length; j++) {
@@ -323,10 +297,11 @@ function verticalCheckArray(arr){
             }
         }
     }
-    change_color(arr);
+    remove_gem(arr);
     //console.log(arr);
 }
 
+// letrehoz annyi uj kovet hogy mindig 100 legyen
 function addNewGem(){
     var imageCount = $('#gameArea img').length;
     console.log("Szám: "+imageCount);
@@ -343,12 +318,13 @@ function addNewGem(){
         } else{
             gem.addClass('gem4').attr('src', 'gem4.png');
         }
-        gem.appendTo('#gameArea');
+        gem.hide().appendTo('#gameArea').fadeIn(500);
     }
     score += (100-imageCount)*10;
     regenerateIndex();
 }
 
+// ujraindexeli a img classaban levo sor oszlop ertekeket
 function regenerateIndex() {
     let i = 1, j = 1;
     $('#gameArea').children().each(function() {
@@ -356,13 +332,14 @@ function regenerateIndex() {
        //console.log(c[0]);
        $(this).removeClass().addClass(c[0]).addClass('col_'+j).addClass('row_'+i);
        j++;
-       if(j == 11){
+       if(j === 11){
            j = 1;
            i++;
        }
     });
 }
 
+// a ranglistat rendezi pontszam alapjan
 function sortByScore() {
     var $table = $('table');
     var $tbody = $table.find('tbody');
@@ -380,6 +357,7 @@ function sortByScore() {
     $rows.appendTo($tbody);
 }
 
+// lekerdezi a jatekos nevet, es a start menu id-jat (az eltavolitashoz)
 function getElement(){
     start = document.getElementById('start');
     name = document.getElementById("playerName");

@@ -150,3 +150,13 @@ h2{
     height: 40px;
     width: 200px;
 }
+
+#reset{
+    height: 40px;
+    width: 200px;
+    border-radius: 10px;
+    border: none;
+    font-size: 20px;
+    margin: 0 auto;
+    position: relative;
+}
