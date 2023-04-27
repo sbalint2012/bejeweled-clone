@@ -57,6 +57,10 @@ window.addEventListener('click', function(e) {
         player = name.value;
         if(player === ""){
             player = "Player 1"
+            var audio = new Audio('background_sound.mp3');
+            audio.volume = 0.2;
+            audio.loop = true;
+            audio.play();
 
         }
         var tbody = $('#scoreBoard tbody');
@@ -71,6 +75,8 @@ window.addEventListener('click', function(e) {
 
     if($(e.target).is('img')){
         e.target.style.backgroundColor = "cyan";
+        var audio = new Audio('click_sound.mp3');
+        audio.play();
     }
 
     let getClass = e.target.className;
@@ -156,10 +162,14 @@ function check_step(arr){
     if(arr[0][1] === arr[1][1] || arr[0][2] === arr[1][2]){
         if(check_step_dist(arr)){
             change_color();
+            var audio = new Audio('valid_step_sound.mp3');
+            audio.play();
             return true;
         }
     }
     change_color();
+    var audio = new Audio('error_sound.mp3');
+    audio.play();
     return false;
 }
 
