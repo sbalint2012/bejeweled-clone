@@ -2,20 +2,18 @@
     padding: 0;
     margin: 0;
     font-family: Arial;
+    color: #ffffff;
 }
 
 body{
-
+    background-image: url("bg.jpg");
 }
 
 #gameArea{
-
     height: 500px;
     width: 500px;
     position: relative;
     margin: 0 auto;
-    border: 1px solid white;
-    //background-color: blue;
     float: left;
 }
 
@@ -23,9 +21,7 @@ body{
     width: 40px;
     height: 40px;
     float: left;
-    background-color: #e3e3e3;
-    border: 1px solid #e3e3e3;
-    border-radius: 10px;
+    border-radius: 30px;
     margin: 2px;
 }
 
@@ -33,9 +29,7 @@ body{
     width: 40px;
     height: 40px;
     float: left;
-    background-color: #e3e3e3;
-    border: 1px solid #e3e3e3;
-    border-radius: 10px;
+    border-radius: 30px;
     margin: 2px;
 }
 
@@ -43,9 +37,7 @@ body{
     width: 40px;
     height: 40px;
     float: left;
-    background-color: #e3e3e3;
-    border: 1px solid #e3e3e3;
-    border-radius: 10px;
+    border-radius: 30px;
     margin: 2px;
 }
 
@@ -53,9 +45,7 @@ body{
     width: 40px;
     height: 40px;
     float: left;
-    background-color: #e3e3e3;
-    border: 1px solid #e3e3e3;
-    border-radius: 10px;
+    border-radius: 30px;
     margin: 2px;
 }
 
@@ -63,7 +53,6 @@ img{
     width: 40px;
     height: 40px;
     float: left;
-    border: 1px solid black;
     padding: 2px;
 }
 
@@ -74,7 +63,6 @@ h1{
 }
 
 #scoreDiv{
-    //background-color: yellow;
     position: relative;
     margin: 0 auto;
     width: 300px;
@@ -84,7 +72,6 @@ h1{
 }
 
 #menu{
-    //background-color: yellow;
     position: relative;
     margin: 0 auto;
     width: 300px;
@@ -97,7 +84,6 @@ h1{
     margin: 0 auto;
     width: 1102px;
     height: 500px;
-    //background-color: red;
 }
 
 #scoreBoard{
@@ -126,12 +112,10 @@ h2{
 }
 
 #start {
-    background-color: #efefef;
-    border-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%; /* set height of the container to the viewport height */
+    height: 100%;
 }
 
 #startBtn{
@@ -142,6 +126,7 @@ h2{
     font-size: 20px;
     margin: 0 auto;
     position: relative;
+    background-color: #53115b;
 }
 
 #playerName{
@@ -149,6 +134,8 @@ h2{
     font-size: 20px;
     height: 40px;
     width: 200px;
+    background-color: #ffffff;
+    color:black;
 }
 
 #reset{
@@ -159,4 +146,11 @@ h2{
     font-size: 20px;
     margin: 0 auto;
     position: relative;
+    background-color: #53115b;
+}
+
+.red{
+    color: #0066ff;
+    background-color: rgba(83,17,91,0.4);
+
 }

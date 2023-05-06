@@ -1,5 +1,4 @@
 let selected_gems = [];
-
 let green_gem = []; //gem3
 let red_gem = []; //gem4
 let yellow_gem = []; //gem1
@@ -25,8 +24,27 @@ $(function () {
         location.reload();
     });
 
+    setInterval(function() {
+        $('.gem3, .gem4, .gem1, .gem2').css({'transform': 'rotate(0deg)'}).animate({
+            borderSpacing: 360
+        }, {
+            step: function(now, fx) {
+                $(this).css('transform', 'rotate(' + now + 'deg)');
+            },
+            duration: 20000,
+            easing: 'linear',
+            complete: function() {
+                $(this).css({
+                    'transform': 'rotate(0deg)',
+                    'border-spacing': 0
+                });
+            }
+        });
+    }, 100);
+
 });
 
+//jatek elejen a palya feltoltese kovekkel
 function generate_gems(){
     for(let i = 1; i < 11; i++){
         for(let j = 1; j < 11; j++){
@@ -54,19 +72,20 @@ function generate_gems(){
 window.addEventListener('click', function(e) {
 
     if($(e.target).is('#startBtn') && game ===  false){
+        var audio = new Audio('background_sound.mp3');
+        audio.volume = 0.2;
+        audio.loop = true;
+        audio.play();
+
         player = name.value;
         if(player === ""){
             player = "Player 1"
-            var audio = new Audio('background_sound.mp3');
-            audio.volume = 0.2;
-            audio.loop = true;
-            audio.play();
 
         }
         var tbody = $('#scoreBoard tbody');
         var newRow = $('<tr>');
-        newRow.append($('<td>').text(player)).css("color","red");
-        newRow.append($('<td>').text(score));
+        newRow.append($('<td class="red">').text(player));
+        newRow.append($('<td class="red">').text(score));
         tbody.append(newRow);
         game = true;
         start.remove();
@@ -99,6 +118,7 @@ window.addEventListener('click', function(e) {
     }
 });
 
+///feldarabolja egy tombbe az atadott class erteket
 function slice_class(s){
     let splitted = s.split(" ");
     let res = [];
@@ -163,7 +183,7 @@ function check_step(arr){
         if(check_step_dist(arr)){
             change_color();
             var audio = new Audio('valid_step_sound.mp3');
-            audio.play();
+           audio.play();
             return true;
         }
     }
@@ -263,7 +283,7 @@ function get_color(color, array){
 
 // reseteli a hatterszint
 function change_color() {
-    $('#gameArea img').css('background-color', '#e3e3e3');
+    $('#gameArea img').css('background-color', 'transparent');
 }
 
 //eltavolitja a koveket ahol legalabb 3 egymas mellett van
@@ -272,10 +292,10 @@ function remove_gem(array){
         for (let j = 0; j < array[i].length; j++) {
             if (array[i][j] === 2) {
                 //console.log("ződ");
-                //$('#gameArea img').eq(i * 10 + j).remove();//css('background-color','red');
-                $('#gameArea img').eq(i * 10 + j).fadeOut(500, function() {
+                $('#gameArea img').eq(i * 10 + j).remove();//css('background-color','red');
+                /*$('#gameArea img').eq(i * 10 + j).fadeOut(500, function() {
                     $(this).remove();
-                });
+                });*/
 
             }
         }
